@@ -16,8 +16,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.firstinspires.ftc.teamcode.Robot.Drivetrain.Odometry.OdometryGlobalCoordinatePosition;
 
-@Autonomous(name = "Odometry Autonomous", group = "Odometric Corrected Drive")
-public class MyOpModeOdometryFRIDAY extends LinearOpMode
+@Autonomous(name = "OdometryAutonomous for Super Qualifier", group = "Odometric Corrected Drive")
+public class OdometryAutonomous extends LinearOpMode
 {
     DcMotor right_front, right_back, left_front, left_back;
     DcMotor verticalLeft, verticalRight, horizontal;
@@ -35,45 +35,47 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
     final double COUNTS_PER_INCH = 735.92113;
     final double DRIVE_SPEED = 0.65;
 
+
     String rfName = "frontRightDrive", rbName = "backRightDrive", lfName = "frontLeftDrive", lbName = "backLeftDrive";
     String verticalLeftEncoderName = rfName, verticalRightEncoderName = lfName, horizontalEncoderName = lbName;
     OdometryGlobalCoordinatePosition globalPositionUpdate;
     private double getXAngle(){
         return (-imu.getAngularOrientation().firstAngle);
     }
+
     public void errorCorrectedDriveXlr(double power, double distance)
     {
         left_front.setPower(-power);
         right_front.setPower(power);
         left_back.setPower(power);
         right_back.setPower(-power);
- 
+
         sleep(100);
 
         double px = (globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
         double o = globalPositionUpdate.returnOrientation();
- 
+
         double fx, t, dt;
- 
+
         do
         {
             fx = (globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
             t = globalPositionUpdate.returnOrientation();
- 
+
             dt = (t - o);
- 
+
             if (dt >= 0.5)
             {
                 right_front.setPower(power + 0.2);
                 //right_back.setPower(power - 0.1);
             }
- 
+
             if (dt <= -0.5)
             {
                 left_front.setPower(-power - 0.2);
                 //left_back.setPower(-power + 0.1);
             }
- 
+
             if (dt > -0.5 && dt < 0.5)
             {
                 left_front.setPower(-power);
@@ -82,7 +84,7 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
                 right_back.setPower(-power);
             }
         } while (Math.abs((distance + px) - fx) >= 1.0);
- 
+
         left_front.setPower(0.0);
         right_front.setPower(0.0);
         left_back.setPower(0.0);
@@ -95,33 +97,33 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
         right_front.setPower(-power);
         left_back.setPower(-power);
         right_back.setPower(-power);
- 
+
         sleep(100);
 
         double px = (globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
         double o = globalPositionUpdate.returnOrientation();
 
         double fx, t, dt;
- 
+
         do
         {
             fx = (globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
             t = globalPositionUpdate.returnOrientation();
- 
+
             dt = (t - o);
- 
+
             if (dt >= 0.5)
             {
                 left_front.setPower(-power + 0.2);
                 left_back.setPower(-power + 0.2);
             }
- 
+
             if (dt <= -0.5)
             {
                 right_front.setPower(-power + 0.2);
                 right_back.setPower(-power + 0.2);
             }
- 
+
             if (dt > -0.5 && dt < 0.5)
             {
                 left_front.setPower(-power);
@@ -130,46 +132,46 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
                 right_back.setPower(-power);
             }
         } while (Math.abs((distance + px) - fx) >= 2.55);
- 
+
         left_front.setPower(0.0);
         right_front.setPower(0.0);
         left_back.setPower(0.0);
         right_back.setPower(0.0);
     }
- 
+
     public void errorCorrectedDriveYfb(double power, double distance)
     {
         left_front.setPower(-power);
         right_front.setPower(-power);
         left_back.setPower(-power);
         right_back.setPower(-power);
- 
+
         sleep(100);
 
         double py = (globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
         double o = globalPositionUpdate.returnOrientation();
 
         double fy, t, dt;
- 
+
         do
         {
             fy = (globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
             t = globalPositionUpdate.returnOrientation();
- 
+
             dt = (t - o);
- 
+
             if (dt >= 0.5)
             {
                 left_front.setPower(-power + 0.2);
                 left_back.setPower(-power + 0.2);
             }
- 
+
             if (dt <= -0.5)
             {
                 right_front.setPower(-power + 0.2);
                 right_back.setPower(-power + 0.2);
             }
- 
+
             if (dt > -0.5 && dt < 0.5)
             {
                 left_front.setPower(-power);
@@ -178,7 +180,7 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
                 right_back.setPower(-power);
             }
         } while (Math.abs((distance + py) - fy) >= 2.55);
- 
+
         left_front.setPower(0.0);
         right_front.setPower(0.0);
         left_back.setPower(0.0);
@@ -191,33 +193,33 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
         right_front.setPower(power);
         left_back.setPower(power);
         right_back.setPower(-power);
- 
+
         sleep(100);
 
         double py = (globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
         double o = globalPositionUpdate.returnOrientation();
- 
+
         double fy, t, dt;
- 
+
         do
         {
             fy = (globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
             t = globalPositionUpdate.returnOrientation();
- 
+
             dt = (t - o);
- 
+
             if (dt >= 0.5)
             {
                 right_front.setPower(power + 0.2);
                 //right_back.setPower(power - 0.1);
             }
- 
+
             if (dt <= -0.5)
             {
                 left_front.setPower(-power - 0.2);
                 //left_back.setPower(-power + 0.1);
             }
- 
+
             if (dt > -0.5 && dt < 0.5)
             {
                 left_front.setPower(-power);
@@ -226,28 +228,28 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
                 right_back.setPower(-power);
             }
         } while (Math.abs((distance + py) - fy) >= 1.0);
- 
+
         left_front.setPower(0.0);
         right_front.setPower(0.0);
         left_back.setPower(0.0);
         right_back.setPower(0.0);
     }
- 
+
     public void errorCorrectedTurn(double power, double angle)
     {
         if (angle == 0.0) return;
- 
+
         double o = globalPositionUpdate.returnOrientation();
 
         double t;
- 
+
         do
         {
             t = globalPositionUpdate.returnOrientation();
 
             left_front.setPower(-power);
             left_back.setPower(-power);
- 
+
             right_front.setPower(power);
             right_back.setPower(power);
         } while (Math.abs((angle + o) - t) >= 5.0);
@@ -256,6 +258,115 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
         right_front.setPower(0.0);
         left_back.setPower(0.0);
         right_back.setPower(0.0);
+    }
+
+    public void errorCorrectedDriveFB(double power, double distance)
+    {
+        double t = globalPositionUpdate.returnOrientation();
+        double o = (t % 360.0);
+
+        if (o <= 45.0 && o > -45.0)
+        {
+            double correctedDistance = (distance * Math.cos(Math.toRadians(o)));
+            errorCorrectedDriveYfb(power, correctedDistance);
+        }
+
+        else if (o <= 135.0 && o > 45.0)
+        {
+            o -= 90.0;
+
+            double correctedDistance = (distance * Math.cos(Math.toRadians(o)));
+            errorCorrectedDriveXfb(power, -correctedDistance);
+        }
+
+        else if (o <= 225.0 && o > 135.0)
+        {
+            o -= 180.0;
+
+            double correctedDistance = (distance * Math.cos(Math.toRadians(o)));
+            errorCorrectedDriveYfb(power, -correctedDistance);
+        }
+
+        else if (o <= 315.0 && o > 225.0)
+        {
+            o -= 270.0;
+
+            double correctedDistance = (distance * Math.cos(Math.toRadians(o)));
+            errorCorrectedDriveXfb(power, correctedDistance);
+        }
+
+        else if (o < 360.0 && o > 315.0)
+        {
+            o = (360.0 - o);
+
+            double correctedDistance = (distance * Math.cos(Math.toRadians(o)));
+            errorCorrectedDriveYfb(power, correctedDistance);
+        }
+
+        else if (o <= -45.0 && o > -135.0)
+        {
+            o += 90.0;
+
+            double correctedDistance = (distance * Math.cos(Math.toRadians(o)));
+            errorCorrectedDriveXfb(power, correctedDistance);
+        }
+
+        else if (o <= -135.0 && o > -225.0)
+        {
+            o += 180.0;
+
+            double correctedDistance = (distance * Math.cos(Math.toRadians(o)));
+            errorCorrectedDriveYfb(-power, -correctedDistance);
+        }
+
+        else if (o <= -225.0 && o > -315.0)
+        {
+            o += 270;
+
+            double correctedDistance = (distance * Math.cos(Math.toRadians(o)));
+            errorCorrectedDriveXfb(-power, correctedDistance);
+        }
+
+        else if (o <= -315.0 && o > -360.0)
+        {
+            o = (360.0 + o);
+
+            double correctedDistance = (distance * Math.cos(Math.toRadians(o)));
+            errorCorrectedDriveYfb(power, correctedDistance);
+        }
+    }
+
+    public void errorCorrectedDriveLR(double power, double distance)
+    {
+    }
+
+    public void gotoXY(double x, double y, double theta)
+    {
+        double xc = globalPositionUpdate.returnXCoordinate();
+        double yc = globalPositionUpdate.returnYCoordinate();
+
+        if (x == xc) return;
+        if (y == yc) return;
+
+        double dx = (x - xc);
+        double dy = (y - yc);
+
+        double distance = Math.sqrt((dx * dx) + (dy * dy));
+
+        double nx = (x - xc);
+        double ny = (y - yc);
+
+        double angle = Math.toDegrees(Math.atan2(ny, nx));
+
+        errorCorrectedTurn((Math.signum(angle) * DRIVE_SPEED), angle);
+        errorCorrectedDriveFB(DRIVE_SPEED, distance);
+
+        double o = (globalPositionUpdate.returnOrientation() % 360);
+        double t = (theta % 360);
+
+        double dt = (t - o);
+
+        errorCorrectedTurn((Math.signum(dt) * DRIVE_SPEED), dt);
     }
 
     @Override
@@ -321,9 +432,9 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
 
             //align robot with goal
             errorCorrectedDriveYfb(0.65, 60.0);
-            sleep(50);    
+            sleep(50);
             errorCorrectedTurn(0.65, 90);
-            sleep(50);    
+            sleep(50);
             errorCorrectedDriveXfb(0.65, 19.5);
             sleep(100);
             errorCorrectedTurn(-0.65, -85.0);
@@ -338,7 +449,7 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
             sleep(500);
             uptakeServo.setPower(1.0);
             sleep(2000);
-    
+
             //turn off shooter and stacker
             leftShooter.setPower(0.0);
             rightShooter.setPower(0.0);
@@ -347,11 +458,11 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
 
             //turn around and detect rings
             errorCorrectedTurn(-0.65, -170);
-            sleep(50);    
+            sleep(50);
             errorCorrectedDriveYfb(0.65, -8.0);
             ringServo.setPosition(0.0);
             sleep(1500);
-    
+
             //read touch sensor and potentiometer
             if (touchSensor.getState() == false)
             {
@@ -364,22 +475,6 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
             //if 4 rings
             if (potentiometerReading <= 2.1999)
             {
-            //if any changes are necessary here the drive functions work as follows
-            //the drive x,y and fb/lr should stay the same and the negatives I think are
-            //all right and I wouldn’t change them as they have very strange behavior
-            //  function format - errorCorrectedDrive[x/y,fb/lr](power, distance)
-            // if robot is going too far-keep power same, decrease second number, but
-            //keep the positive or negative the same, likewise, too short increase
-            //second number-power won’t change how far robot goes, only how fast
-
-            // I added turns because I thought it might need to turn to line up better
-            //based on the angle at which it backs in for the wobble goal, but the 
-//angle can be changed as well- first number is power, don’t touch this,    
-//the second number is angle and negative numbers are the orange 
-//wheels side of robot turn right, and positive are them turning right
-//angles should be close to real life degrees with ±3-5 degrees
-//that I may or may not have fixed - experiment if needed
-
                 //drive backwards towards wobble drop zone
                 errorCorrectedTurn(-0.65, -8.0);
                 errorCorrectedDriveYfb(-0.65, 61.0);
@@ -388,7 +483,7 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
                 wobbleCoreMotor.setPower(-0.5);
                 sleep(1300);
                 wobbleCoreMotor.setPower(0.0);
-    
+
                 //release wobble goal
                 wobbleServo.setPosition(0.0);
                 sleep(500);
@@ -401,38 +496,20 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
                 //drive forward to park
                 errorCorrectedDriveYfb(0.65, -35.5);
             }
-    
+
             //if 1 ring
             else if (potentiometerReading >= 2.2 && potentiometerReading <= 2.539)
             {
-               
-            //if any changes are necessary here the drive functions work as follows
-            //the drive x,y and fb/lr should stay the same and the negatives I think are
-            //all right and I wouldn’t change them as they have very strange behavior
-            //  function format - errorCorrectedDrive[x/y,fb/lr](power, distance)
-            // if robot is going too far-keep power same, decrease second number, but
-            //keep the positive or negative the same, likewise, too short increase
-            //second number-power won’t change how far robot goes, only how fast
-
-            // I added turns because I thought it might need to turn to line up better
-            //based on the angle at which it backs in for the wobble goal, but the 
-//angle can be changed as well- first number is power, don’t touch this,    
-//the second number is angle and negative numbers are the orange 
-//wheels side of robot turn right, and positive are them turning right
-//angles should be close to real life degrees with ±3-5 degrees
-//that I may or may not have fixed - experiment if needed
-
-
- //turn a bit right to line up with wobble drop zone and drive backwards
+                //turn a bit right to line up with wobble drop zone and drive backwards
                 //CAN DELETE OR MODIFY TURN IF NEEDED
                 errorCorrectedTurn(-0.65, -5.0);
-            sleep(50);    
+                sleep(50);
                 errorCorrectedDriveYfb(-0.65, 25.0);
-            sleep(50);    
+                sleep(50);
                 errorCorrectedTurn(0.65, 90);
-            sleep(50);
+                sleep(50);
                 errorCorrectedDriveYfb(0.65, 0.25);
-            sleep(50);
+                sleep(50);
                 //lower wobble arm
                 wobbleCoreMotor.setPower(-0.5);
                 sleep(1300);
@@ -446,60 +523,31 @@ public class MyOpModeOdometryFRIDAY extends LinearOpMode
                 wobbleCoreMotor.setPower(1);
                 sleep(1000);
                 wobbleCoreMotor.setPower(0.0);
-                
+
                 //strafe right
                 //errorCorrectedDriveYlr(0.65, -10.0);
                 right_front.setPower(0.8);
                 left_front.setPower(-0.8);
                 right_back.setPower(-0.8);
                 left_back.setPower(0.8);
-                
-                sleep(250);
-                
+
+                sleep(400);
+
                 right_front.setPower(0.0);
                 left_front.setPower(0.0);
                 right_back.setPower(0.0);
                 left_back.setPower(0.0);
-                
-                //drive forward
-               // errorCorrectedDriveYfb(0.65, 4.0);
-                //sleep(50);
-
-                //turn back
-               // errorCorrectedTurn(-0.65, -86.0);
-                //sleep(50);
-                
-                //drive forward to park
-                //errorCorrectedDriveYfb(0.65, -10.0);
             }
-    
+
             //if 0 rings
             else if (potentiometerReading >= 2.5)
             {
-//if any changes are necessary here the drive functions work as follows
-            //the drive x,y and fb/lr should stay the same and the negatives I think are
-            //all right and I wouldn’t change them as they have very strange behavior
-            //  function format - errorCorrectedDrive[x/y,fb/lr](power, distance)
-            // if robot is going too far-keep power same, decrease second number, but
-            //keep the positive or negative the same, likewise, too short increase
-            //second number-power won’t change how far robot goes, only how fast
-               
-
-// I added turns because I thought it might need to turn to line up better
-            //based on the angle at which it backs in for the wobble goal, but the 
-//angle can be changed as well- first number is power, don’t touch this,    
-//the second number is angle and negative numbers are the orange 
-//wheels side of robot turn right, and positive are them turning right
-//angles should be close to real life degrees with ±3-5 degrees
-//that I may or may not have fixed - experiment if needed
-
-
- //turn a bit right to line up with wobble drop zone and drive backwards
-                //CAN DELETE OR MODIFY TURN IF NEEDED    
+                //turn a bit right to line up with wobble drop zone and drive backwards
+                //CAN DELETE OR MODIFY TURN IF NEEDED
                 errorCorrectedTurn(-0.65, -15.0);
-                sleep(50);    
+                sleep(50);
                 errorCorrectedDriveYfb(-0.65, 18.5);
-            
+
                 //lower wobble arm
                 wobbleCoreMotor.setPower(-0.5);
                 sleep(1300);
