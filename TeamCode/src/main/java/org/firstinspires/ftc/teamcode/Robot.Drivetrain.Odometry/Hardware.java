@@ -9,16 +9,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Hardware
 {
-    public DcMotor frontLeftDrive, frontRightDrive, backLeftDrive, backRightDrive;
-    public DcMotor leftShooter, rightShooter, wobbleCoreMotor, frontIntake;
+    public DcMotor frontLeftDrive = null, frontRightDrive = null, backLeftDrive = null, backRightDrive = null;
+    public DcMotor leftShooter = null, rightShooter = null, wobbleCoreMotor = null, frontIntake = null;
 
-    public Servo angleServo, wobbleServo, ringServo;
-    public CRServo stackServo, uptakeServo;
+    public Servo angleServo = null, wobbleServo = null, ringServo = null;
+    public CRServo stackServo = null, uptakeServo = null;
 
-    public DigitalChannel touchSensor;
-    public AnalogInput potentiometer;
+    public DigitalChannel touchSensor = null;
+    public AnalogInput potentiometer = null;
 
-    public HardwareMap hardwareMap;
+    public HardwareMap hardwareMap = null;
 
     public void setPowerAll(double lf, double rf, double rb, double lb)
     {
@@ -28,8 +28,10 @@ public class Hardware
         backRightDrive.setPower(lb);
     }
 
-    public void init()
+    public void init(HardwareMap hwMap)
     {
+        hardwareMap = hwMap;
+
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
         frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
         backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
@@ -68,6 +70,5 @@ public class Hardware
 
         uptakeServo.setPower(0.0);
         stackServo.setPower(0.0);
-
     }
 }
