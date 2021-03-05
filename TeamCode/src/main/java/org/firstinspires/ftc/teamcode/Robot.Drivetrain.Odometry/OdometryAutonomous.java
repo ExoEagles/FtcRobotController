@@ -35,10 +35,10 @@ public class OdometryAutonomous extends LinearOpMode
     final double COUNTS_PER_INCH = 735.92113;
     final double DRIVE_SPEED = 0.65;
 
-
     String rfName = "frontRightDrive", rbName = "backRightDrive", lfName = "frontLeftDrive", lbName = "backLeftDrive";
     String verticalLeftEncoderName = rfName, verticalRightEncoderName = lfName, horizontalEncoderName = lbName;
     OdometryGlobalCoordinatePosition globalPositionUpdate;
+
     private double getXAngle(){
         return (-imu.getAngularOrientation().firstAngle);
     }
@@ -83,7 +83,7 @@ public class OdometryAutonomous extends LinearOpMode
                 left_back.setPower(power);
                 right_back.setPower(-power);
             }
-        } while (Math.abs((distance + px) - fx) >= 1.0);
+        } while (Math.abs((distance + px) - fx) >= 1.0 && opModeIsActive());
 
         left_front.setPower(0.0);
         right_front.setPower(0.0);
@@ -131,7 +131,7 @@ public class OdometryAutonomous extends LinearOpMode
                 left_back.setPower(-power);
                 right_back.setPower(-power);
             }
-        } while (Math.abs((distance + px) - fx) >= 2.55);
+        } while (Math.abs((distance + px) - fx) >= 2.55 && opModeIsActive());
 
         left_front.setPower(0.0);
         right_front.setPower(0.0);
@@ -179,7 +179,7 @@ public class OdometryAutonomous extends LinearOpMode
                 left_back.setPower(-power);
                 right_back.setPower(-power);
             }
-        } while (Math.abs((distance + py) - fy) >= 2.55);
+        } while (Math.abs((distance + py) - fy) >= 2.55 && opModeIsActive());
 
         left_front.setPower(0.0);
         right_front.setPower(0.0);
@@ -227,7 +227,7 @@ public class OdometryAutonomous extends LinearOpMode
                 left_back.setPower(power);
                 right_back.setPower(-power);
             }
-        } while (Math.abs((distance + py) - fy) >= 1.0);
+        } while (Math.abs((distance + py) - fy) >= 1.0 && opModeIsActive());
 
         left_front.setPower(0.0);
         right_front.setPower(0.0);
@@ -252,7 +252,7 @@ public class OdometryAutonomous extends LinearOpMode
 
             right_front.setPower(power);
             right_back.setPower(power);
-        } while (Math.abs((angle + o) - t) >= 5.0);
+        } while (Math.abs((angle + o) - t) >= 5.0 && opModeIsActive());
 
         left_front.setPower(0.0);
         right_front.setPower(0.0);
@@ -501,7 +501,6 @@ public class OdometryAutonomous extends LinearOpMode
             else if (potentiometerReading >= 2.2 && potentiometerReading <= 2.539)
             {
                 //turn a bit right to line up with wobble drop zone and drive backwards
-                //CAN DELETE OR MODIFY TURN IF NEEDED
                 errorCorrectedTurn(-0.65, -5.0);
                 sleep(50);
                 errorCorrectedDriveYfb(-0.65, 25.0);
@@ -524,26 +523,16 @@ public class OdometryAutonomous extends LinearOpMode
                 sleep(1000);
                 wobbleCoreMotor.setPower(0.0);
 
-                //strafe right
-                //errorCorrectedDriveYlr(0.65, -10.0);
-                right_front.setPower(0.8);
-                left_front.setPower(-0.8);
-                right_back.setPower(-0.8);
-                left_back.setPower(0.8);
-
+                //strafe right the last little bit to touch the launch line
+                setPowerAll(0.8, -0.8, -0.8, 0.8);
                 sleep(400);
-
-                right_front.setPower(0.0);
-                left_front.setPower(0.0);
-                right_back.setPower(0.0);
-                left_back.setPower(0.0);
+                setPowerAll(0.0, 0.0, 0.0, 0.0);
             }
 
             //if 0 rings
             else if (potentiometerReading >= 2.5)
             {
                 //turn a bit right to line up with wobble drop zone and drive backwards
-                //CAN DELETE OR MODIFY TURN IF NEEDED
                 errorCorrectedTurn(-0.65, -15.0);
                 sleep(50);
                 errorCorrectedDriveYfb(-0.65, 18.5);
@@ -569,7 +558,6 @@ public class OdometryAutonomous extends LinearOpMode
 
         //Stop the thread
         globalPositionUpdate.stop();
-
     }
 
     private void initDriveHardwareMap(String rfName, String rbName, String lfName, String lbName, String vlEncoderName, String vrEncoderName, String hEncoderName)
