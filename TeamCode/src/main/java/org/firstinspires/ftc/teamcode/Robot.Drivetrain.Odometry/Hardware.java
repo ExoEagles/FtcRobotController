@@ -20,6 +20,22 @@ public class Hardware
 
     public HardwareMap hardwareMap = null;
 
+
+    public final double COUNTS_PER_INCH = 735.92113;
+    public final double DRIVE_SPEED = 0.65;
+
+    public final double SERVO_LOCK = 0.5;
+
+    public final double RING_UP = 1.0;
+    public final double RING_DOWN = 0.0;
+
+    public final double WOBBLE_CLOSED = 1.0;
+    public final double WOBBLE_OPEN = 0.0;
+
+    public final double MAX_POWER = 1.0;
+    public final double MIN_POWER = 0.0;
+
+
     public void setPowerAll(double lf, double rf, double rb, double lb)
     {
         frontLeftDrive.setPower(lf);
@@ -60,7 +76,7 @@ public class Hardware
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        setPowerAll(0.0, 0.0, 0.0, 0.0);
+        setPowerAll(MIN_POWER, MIN_POWER, MIN_POWER, MIN_POWER);
 
         leftShooter.setPower(0.0);
         rightShooter.setPower(0.0);
