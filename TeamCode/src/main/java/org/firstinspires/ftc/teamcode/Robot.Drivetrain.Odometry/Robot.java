@@ -6,8 +6,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class Hardware
+public class Robot
 {
     public DcMotor frontLeftDrive = null, frontRightDrive = null, backLeftDrive = null, backRightDrive = null;
     public DcMotor leftShooter = null, rightShooter = null, wobbleCoreMotor = null, frontIntake = null;
@@ -19,7 +20,9 @@ public class Hardware
     public AnalogInput potentiometer = null;
 
     public HardwareMap hardwareMap = null;
+    public ElapsedTime elapsedTime = null;
 
+    public boolean uptakeOn = false;
 
     public final double COUNTS_PER_INCH = 735.92113;
     public final double DRIVE_SPEED = 0.65;
@@ -29,12 +32,18 @@ public class Hardware
     public final double RING_UP = 1.0;
     public final double RING_DOWN = 0.0;
 
-    public final double WOBBLE_CLOSED = 1.0;
-    public final double WOBBLE_OPEN = 0.0;
+    public final double WOBBLE_CLOSED = 0.0;
+    public final double WOBBLE_OPEN = 1.0;
 
     public final double MAX_POWER = 1.0;
     public final double MIN_POWER = 0.0;
 
+    public final double SHOOTER_POWER = 0.8;
+
+    public boolean debounceOK()
+    {
+        return (elapsedTime.milliseconds() > 100);
+    }
 
     public void setPowerAll(double lf, double rf, double rb, double lb)
     {
@@ -86,5 +95,10 @@ public class Hardware
 
         uptakeServo.setPower(0.0);
         stackServo.setPower(0.0);
+    }
+
+    public Robot(HardwareMap hardwareMap)
+    {
+        init(hardwareMap);
     }
 }
