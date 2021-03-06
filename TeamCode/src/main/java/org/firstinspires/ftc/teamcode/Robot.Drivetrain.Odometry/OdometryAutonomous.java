@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.firstinspires.ftc.teamcode.Robot.Drivetrain.Odometry.OdometryGlobalCoordinatePosition;
 
-@Autonomous(name = "OdometryAutonomous for Super Qualifier", group = "Odometric Corrected Drive")
+@Autonomous(name = "OdometryAutonomous for (OLD)", group = "Odometric Corrected Drive")
 public class OdometryAutonomous extends LinearOpMode
 {
     DcMotor right_front, right_back, left_front, left_back;

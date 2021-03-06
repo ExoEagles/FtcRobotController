@@ -13,6 +13,8 @@ public class Robot
     public DcMotor frontLeftDrive = null, frontRightDrive = null, backLeftDrive = null, backRightDrive = null;
     public DcMotor leftShooter = null, rightShooter = null, wobbleCoreMotor = null, frontIntake = null;
 
+    public DcMotor verticalLeft = null, verticalRight = null, horizontal = null;
+
     public Servo angleServo = null, wobbleServo = null, ringServo = null;
     public CRServo stackServo = null, uptakeServo = null;
 
@@ -23,6 +25,7 @@ public class Robot
     public ElapsedTime elapsedTime = null;
 
     public boolean uptakeOn = false;
+    public double potentiometerReading = 0.0;
 
     public final double COUNTS_PER_INCH = 735.92113;
     public final double DRIVE_SPEED = 0.65;
@@ -32,10 +35,11 @@ public class Robot
     public final double RING_UP = 1.0;
     public final double RING_DOWN = 0.0;
 
-    public final double WOBBLE_CLOSED = 0.0;
-    public final double WOBBLE_OPEN = 1.0;
+    public final double WOBBLE_CLOSED = 1.0;
+    public final double WOBBLE_OPEN = 0.0;
 
     public final double MAX_POWER = 1.0;
+    public final double HALF_POWER = 0.5;
     public final double MIN_POWER = 0.0;
 
     public final double SHOOTER_POWER = 0.8;
@@ -61,6 +65,10 @@ public class Robot
         frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
         backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
+
+        verticalLeft = hardwareMap.get(DcMotor.class, "verticalLeft");
+        verticalRight = hardwareMap.get(DcMotor.class, "verticalRight");
+        horizontal = hardwareMap.get(DcMotor.class, "horizontal");
 
         leftShooter = hardwareMap.get(DcMotor.class, "leftShooter");
         rightShooter = hardwareMap.get(DcMotor.class, "rightShooter");
